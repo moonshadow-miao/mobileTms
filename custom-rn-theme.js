@@ -9,7 +9,6 @@ const themePath = path.resolve(require.resolve('@ant-design/react-native'), '../
 const themeVars = Object.assign({}, defaultVars, customVars);
 
 if (fs.statSync(themePath).isFile()) {
-  fs.copyFileSync('node_modules/@ant-design/react-native/lib/style/themes/default.js', 'node_modules/@ant-design/react-native/lib/style/themes/default.origin.js')
   fs.writeFileSync(
     themePath,
     'var brandPrimary = "#108ee9"; var brandPrimaryTap = "#1284d6";module.exports = ' + JSON.stringify(themeVars)
