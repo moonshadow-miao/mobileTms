@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
-import {View, Text, Image, StyleSheet} from 'react-native'
+import {View, Text, Image} from 'react-native'
 import {observer, inject} from 'mobx-react'
 import {Common} from '../../store/common'
 import style from './style'
+import {variable} from '../../style'
 // @ts-ignore
 import logo from '../../assets/images/logoTnet.png'
-import {Button, InputItem} from '@ant-design/react-native'
+import {Button, InputItem, Icon} from '@ant-design/react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 interface Props {
@@ -41,22 +42,9 @@ let timeOut: number
 // const IsDev: boolean = process.env.NODE_ENV === 'development'
 // let PreToken: string
 
-let styles = StyleSheet.create({
-  linearGradient: {
-    flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5
-  },
-  buttonText: {
-    fontSize: 18,
-    fontFamily: 'Gill Sans',
-    textAlign: 'center',
-    margin: 10,
-    color: '#ffffff',
-    backgroundColor: 'transparent',
-  }
-})
+const SendCode: () =>  JSX.Element = () => (<View style={style.sendContainer}>
+  <Text style={style.sendText}>发送验证码</Text>
+</View>)
 
 @inject('common')
 @observer
@@ -164,23 +152,32 @@ class Index extends Component<Props, State> {
   render () {
     const {tel} = this.state
     return (
-      <View style={style.container}>
-        <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
-          <Text style={styles.buttonText}>
-            Sign in with Facebook
-          </Text>
-        </LinearGradient>
+      <LinearGradient start={{x: 1, y: 0}} end={{x: 0, y: 1}} style={style.container} colors={['#3023ae', '#ec6e5e']}>
         <View style={style.mask} />
         <View style={style.content}>
           <View style={{padding: 32}}><Text style={style.title}>登 录</Text></View>
           <Image style={style.logo} source={logo} />
           <View style ={style.inputItem}>
-            <InputItem name='tel' clear type='phone' placeholder='请输入手机号码' value={tel.toString()} onChange={this.changeInput.bind(null, 'tel')}/>
+            <View style={style.iconContainer}>
+              <Icon name="mobile" size="md" color={variable.mainColor}/>
+              <Text style={style.iconText}>手机：</Text>
+            </View>
+            <View style={style.input}>
+              <InputItem allowFontScaling={false} name='tel' last clear type='phone' placeholder='请输入手机号码' value={tel.toString()} onChange={this.changeInput.bind(null, 'tel')}/>
+            </View>
           </View>
-          <View style ={style.inputItem}></View>
-          <Button type="primary"  onPress={this.getDomain}>登录</Button>
+          <View style ={style.inputItem}>
+            <View style={style.iconContainer}>
+              <Icon name="lock" size="md" color={variable.mainColor}/>
+              <Text style={style.iconText}>验证码：</Text>
+            </View>
+            <View style={style.input}>
+              <InputItem allowFontScaling={false} name='tel' last clear type='phone' placeholder='请输入验证码' value={tel.toString()} onChange={this.changeInput.bind(null, 'tel')} extra={<SendCode/>} />
+            </View>
+          </View>
+          <Button style={style.button} type="primary"  onPress={this.getDomain}>登录</Button>
         </View>
-      </View>
+      </LinearGradient>
     )
   }
 }

@@ -17,10 +17,11 @@ class DetailsScreen extends React.Component {
 const App = createStackNavigator({
   Index: {
     screen: Login,
+    navigationOptions: {header: null}
   },
   Details: DetailsScreen
 }, {
-  initialRouteName: 'Index'
+  initialRouteName: 'Index',
 })
 
 // 初始化StackNavigator

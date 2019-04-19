@@ -6,18 +6,24 @@ interface CommonStyle {
 
 const common: CommonStyle = {
   container: {
-    height: '100%',
+    flex: 1,
     position: 'relative'
   }
 }
 
-export const variable = {
-  mainColor: ' #6659c8'
+interface Variable {
+  mainColor: string,
+  borderColor: string,
+  center: ViewStyle
+}
+
+export const variable: Variable = {
+  mainColor: '#6659c8',
+  borderColor: '#b7bcc0',
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 }
 
 export default common
-//   .btn-common  {
-//   height: 40px;
-//   line-height: 38px;
-//   margin: 10px 15px;
-// }

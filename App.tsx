@@ -9,7 +9,7 @@ export default class AppNavigation extends Component {
   render () {
     return (
       <Provider {...store}>
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: '#eb272d'}}>
           <Routers/>
         </View>
       </Provider>

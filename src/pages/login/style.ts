@@ -1,5 +1,5 @@
 import {ViewStyle, StyleSheet, TextStyle, ImageStyle} from 'react-native'
-import common from '../../style'
+import common, {variable} from '../../style'
 
 interface IndexStyle {
   container: ViewStyle,
@@ -7,45 +7,80 @@ interface IndexStyle {
   content: ViewStyle,
   title: TextStyle,
   logo: ImageStyle,
-  inputItem: ViewStyle
+  inputItem: ViewStyle,
+  iconContainer: ViewStyle,
+  iconText: TextStyle,
+  input: TextStyle,
+  button: TextStyle,
+  sendText: TextStyle,
+  sendContainer: ViewStyle
 }
 
 const style: IndexStyle = {
   container: {
-    height: '100%',
+    flex: 1,
     position: 'relative'
   },
   mask: {
-    opacity: 0.8,
+    opacity: 0.2,
     height: '100%',
+    width: '100%',
     position: 'absolute',
-    top: 0
+    backgroundColor: '#fff',
+    top: 0,
+    left: 0
   },
   content: {
     position: 'relative',
-    zIndex: 1
+    zIndex: 1,
+    padding: 20
   },
   title: {
     color: '#fff',
     textAlign: 'center',
-    fontSize: 17
+    fontSize: 18
   },
   logo: {
     width: 275,
     height: 158,
     marginTop: 30,
-    marginLeft: 60,
-    borderColor: 'blue',
-    borderWidth: 2,
-    backgroundColor: 'red'
+    marginLeft: 40
   },
   inputItem: {
-    marginTop: 30,
-    marginRight: 60,
-    marginBottom: 30,
-    marginLeft: 60,
+    marginTop: 35,
     backgroundColor: '#fff',
-    display: 'flex'
+    height: 50,
+    flexDirection: 'row'
+  },
+  iconContainer: {
+    width: 100,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  iconText: {
+    marginLeft: 5,
+    fontSize: 16
+  },
+  input: {
+    flex: 1,
+    height: 50,
+    ...variable.center,
+    fontSize: 12
+  },
+  sendContainer: {
+    borderLeftColor: variable.borderColor,
+    borderLeftWidth: 1,
+    paddingLeft: 10
+  },
+  sendText: {
+    ...variable.center,
+    color: variable.mainColor
+  },
+  button: {
+    marginTop: 60,
+    height: 38,
+    lineHeight: 38
   }
 }
 
