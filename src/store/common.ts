@@ -1,6 +1,7 @@
 // import {API_USER_AUTH} from 'api'
 import {action, observable} from 'mobx';
 // import {STORAGE} from '../utils/const'
+import {ENV_URL} from '../utils/const'
 
 type User = {
   roleNames: string,
@@ -13,12 +14,12 @@ type User = {
 }
 
 export interface Common {
-  urlPre: number,
+  url: ENV_URL,
   token: string,
   loading: boolean,
   auth: any,
   user: User,
-  changeUrlPre: (url: number) => void,
+  changeUrl: (url: ENV_URL) => void,
   setToken: (token: string) => void,
   openLoading: Function,
   closeLoading: Function,
@@ -28,20 +29,20 @@ export interface Common {
 }
 
 const token =  ''
-const urlPre =  0
+const url = ENV_URL.DEV
 const auth: any = null
 const user: any = null
 
 export default class common implements Common{
-  @observable urlPre = urlPre
+  @observable url = url
   @observable token = token
   @observable auth = auth
   @observable user = user
   @observable loading = false
 
   @action
-  changeUrlPre(url: number) {
-    this.urlPre = url
+  changeUrl(url: ENV_URL) {
+    this.url = url
     // Taro.setStorageSync(STORAGE.URL, url)
   }
 

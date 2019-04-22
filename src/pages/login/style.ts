@@ -13,7 +13,8 @@ interface IndexStyle {
   input: TextStyle,
   button: TextStyle,
   sendText: TextStyle,
-  sendContainer: ViewStyle
+  sendContainer: ViewStyle,
+  picker: TextStyle
 }
 
 const style: IndexStyle = {
@@ -77,10 +78,18 @@ const style: IndexStyle = {
     ...variable.center,
     color: variable.mainColor
   },
+  picker: {
+    marginTop: 10,
+    borderWidth: 2,
+    borderColor: variable.mainColor,
+    marginLeft: 20,
+    marginRight: 20,
+    textAlign: 'center',
+    lineHeight: 30
+  },
   button: {
-    marginTop: 60,
-    height: 38,
-    lineHeight: 38
+    marginTop: 50,
+    height: 38
   }
 }
 

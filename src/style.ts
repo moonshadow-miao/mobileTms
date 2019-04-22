@@ -1,20 +1,9 @@
-import {ViewStyle} from 'react-native'
+import {TextStyle, ViewStyle} from 'react-native'
 
 interface CommonStyle {
-  container: ViewStyle
-}
-
-const common: CommonStyle = {
-  container: {
-    flex: 1,
-    position: 'relative'
-  }
-}
-
-interface Variable {
-  mainColor: string,
-  borderColor: string,
-  center: ViewStyle
+  container: ViewStyle,
+  pickerItem: TextStyle,
+  indicator: TextStyle
 }
 
 export const variable: Variable = {
@@ -25,5 +14,26 @@ export const variable: Variable = {
     alignItems: 'center'
   }
 }
+
+const common: CommonStyle = {
+  container: {
+    flex: 1,
+    position: 'relative'
+  },
+  pickerItem: {
+    lineHeight: 30,
+    fontSize: 16
+  },
+  indicator: {
+    color: variable.mainColor
+  }
+}
+
+interface Variable {
+  mainColor: string,
+  borderColor: string,
+  center: ViewStyle
+}
+
 
 export default common

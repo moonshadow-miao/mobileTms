@@ -84,10 +84,10 @@ exports['default'] = {
   // 组件变量
   // ---
   actionsheet_item_height: 50,
-  actionsheet_item_font_size: 18,
+  actionsheet_item_font_size: 16,
   // button
   button_height: 47,
-  button_font_size: 18,
+  button_font_size: 16,
   button_height_sm: 23,
   button_font_size_sm: 12,
   primary_button_fill: brandPrimary,
@@ -97,10 +97,10 @@ exports['default'] = {
   warning_button_fill: '#e94f4f',
   warning_button_fill_tap: '#d24747',
   link_button_fill_tap: '#dddddd',
-  link_button_font_size: 16,
+  link_button_font_size: 15,
   // modal
   modal_font_size_heading: 18,
-  modal_button_font_size: 18,
+  modal_button_font_size: 16,
   modal_button_height: 50,
   // list
   list_title_height: 30,
@@ -108,7 +108,7 @@ exports['default'] = {
   list_item_height: 44,
   // input
   input_label_width: 17,
-  input_font_size: 17,
+  input_font_size: 15,
   input_color_icon: '#cccccc',
   input_color_icon_tap: brandPrimary,
   // tabs
