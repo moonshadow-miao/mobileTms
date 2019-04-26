@@ -1,5 +1,7 @@
 import {PRODUCT_URL} from '../utils/const'
 import {common} from '../store'
+import {Toast} from '@ant-design/react-native'
+// import {} from 'react-navigation'
 
 interface FetchOptions {
   url: string,
@@ -10,7 +12,7 @@ interface FetchOptions {
   loading?: boolean
 }
 
-const Fetch: (option: FetchOptions) => Promise<any> = ({url, method = 'POST', data, formData = false, query = false, loading = false}) => {
+const Fetch: (option: FetchOptions) => Promise<any> = ({url, method = 'POST', data: body, formData = false, query = false, loading = false}) => {
   loading && common.openLoading()
   const URL_PRE = __DEV__? common.url : PRODUCT_URL
   url = URL_PRE + url
@@ -20,13 +22,14 @@ const Fetch: (option: FetchOptions) => Promise<any> = ({url, method = 'POST', da
   }
   if (query) {
     url += '?'
-    for (let key  in data) {
-      const value = data[key]
+    for (let key  in body) {
+      const value = body[key]
       url += key + '=' + value + '&'
     }
     url = url.slice(0, -1)
   }
-  return fetch(url,{method, headers, body: data}).then((res: any) => {
+  const params = body ? {method, headers} : {method, headers, body}
+  return fetch(url, params).then(res => res.json()).then((res: any) => {
     loading && common.closeLoading()
     if (res.status && res.status !== 200) {
       throw Error(res.message)
@@ -34,14 +37,16 @@ const Fetch: (option: FetchOptions) => Promise<any> = ({url, method = 'POST', da
     if (!res.success) {
       if (res.errorCode === 'ILLEGAL_IDENTITY_AUTHENTICATION') {
 
+        return
       }
       throw Error(res.messages && res.messages.toString())
     }
     return res
   }).catch((err: any) => {
     loading && common.closeLoading()
-    // const msg = err.message || err.errMsg
-    throw Error(err)
+    const msg = err.message || err.errMsg
+    Toast.fail(msg, 1)
+    throw Error(msg)
   })
 }
 

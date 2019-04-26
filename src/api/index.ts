@@ -5,19 +5,19 @@ const loading: boolean = true
 
 export default {}
 /**获取验证码*/
-export const API_GET_VALID_CODE = (url: string) => Fetch({url, data: {}, method: 'GET'})
+export const API_GET_VALID_CODE = (url: string) => Fetch({url, data: null, method: 'GET'})
 
 /**退出登录*/
-export const API_LOGIN_OUT = () => Fetch({url: '/app/mobile/auth/logout', data: {}})
+export const API_LOGIN_OUT = () => Fetch({url: '/app/mobile/auth/logout', data: null})
 
 /**根据手机号码，验证码获取域列表及preToken*/
 export const API_GET_DOMAIN_LIST = (data: INTERFACE.GET_DOMAIN_LIST) => Fetch({url: '/app/mobile/auth/fetchPreToken', data, query: true})
 
 /**preToken进行登录，获取token*/
-export const API_LOGIN = (data: INTERFACE.LOGIN) => Fetch({url: '/app/mobile/auth/login', data, query: true})
+export const API_LOGIN = (data: { preToken: string; domainCode: number }) => Fetch({url: '/app/mobile/auth/login', data, query: true})
 
 /**获取用户权限*/
-export const API_USER_AUTH = () => Fetch({url: '/app/mobile/user/current', data: {}})
+export const API_USER_AUTH = () => Fetch({url: '/app/mobile/user/current', data: null})
 
 /**获取订单调度列表*/
 export const API_ORDER_LIST = (data: INTERFACE.ORDER_LIST, Loading = false) => Fetch({url: '/app/mobile/to/getSoGroupList', data, loading: Loading})
@@ -26,7 +26,7 @@ export const API_ORDER_LIST = (data: INTERFACE.ORDER_LIST, Loading = false) => F
 export const API_CANCEL_SPLIT = (data: INTERFACE.CANCEL_SPLIT) => Fetch({url: '/app/mobile/to/revokeToi', data, query: true, loading})
 
 /**获取中转站点*/
-export const API_ALL_HUBS = () => Fetch({url: '/app/mobile/common/getAllHubs', data: {}})
+export const API_ALL_HUBS = () => Fetch({url: '/app/mobile/common/getAllHubs', data: null})
 
 /**运单拆分*/
 export const API_SPLIT_ORDER = (data: INTERFACE.SPLIT_ORDER) => Fetch({url: '/app/mobile/to/scheduleAddrGroup', data, loading})

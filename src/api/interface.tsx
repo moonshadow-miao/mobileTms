@@ -1,6 +1,6 @@
 export interface GET_DOMAIN_LIST {
   phone: number,
-  captcha: number
+  captcha: string
 }
 
 export interface LOGIN {

@@ -1,18 +1,8 @@
-import React, {Component} from 'react';
-import {Provider} from 'mobx-react'
-import Routers from './src/router'
-import store from './src/store'
-import {View} from 'react-native'
+import React, {Component} from 'react'
+import App from './src/index'
 
 export default class AppNavigation extends Component {
-
   render () {
-    return (
-      <Provider {...store}>
-        <View style={{flex: 1, backgroundColor: '#eb272d'}}>
-          <Routers/>
-        </View>
-      </Provider>
-    )
+    return (<App/>)
   }
 }
