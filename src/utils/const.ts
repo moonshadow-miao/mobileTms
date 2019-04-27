@@ -12,4 +12,10 @@ export enum ENV_URL {
   PRODUCT = 'https://apptnet.800best.com'
 }
 
+export const STORAGE = {
+  URL: __DEV__ ? 'url' : ENV_LABEL.PRODUCT + 'url',
+  TOKEN: __DEV__ ? 'token' : ENV_LABEL.PRODUCT + 'token',
+  AUTH: __DEV__ ? 'auth' : ENV_LABEL.PRODUCT + 'auth'
+}
+
 export const PRODUCT_URL = ENV_URL.PRODUCT// 生产环境的地址

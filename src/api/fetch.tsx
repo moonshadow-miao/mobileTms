@@ -1,7 +1,7 @@
 import {PRODUCT_URL} from '../utils/const'
 import {common} from '../store'
 import {Toast} from '@ant-design/react-native'
-// import {} from 'react-navigation'
+import NavigationService from '../router/NavigationService'
 
 interface FetchOptions {
   url: string,
@@ -36,7 +36,7 @@ const Fetch: (option: FetchOptions) => Promise<any> = ({url, method = 'POST', da
     }
     if (!res.success) {
       if (res.errorCode === 'ILLEGAL_IDENTITY_AUTHENTICATION') {
-
+        NavigationService.navigate('Login')
         return
       }
       throw Error(res.messages && res.messages.toString())

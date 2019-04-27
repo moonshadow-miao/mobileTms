@@ -1,6 +1,6 @@
-// import {API_USER_AUTH} from 'api'
+import {AsyncStorage} from 'react-native'
 import {action, observable} from 'mobx';
-// import {STORAGE} from '../utils/const'
+import {STORAGE} from '../utils/const'
 import {ENV_URL} from '../utils/const'
 
 type User = {
@@ -28,28 +28,38 @@ export interface Common {
   getAuthAndUser: () => void
 }
 
-const token =  ''
-const url = ENV_URL.DEV
-const auth: any = null
+const tokenInit =  ''
+const urlInit = ENV_URL.DEV
+const authInit: any = null
 const user: any = null
 
-export default class common implements Common{
-  @observable url = url
-  @observable token = token
-  @observable auth = auth
+class common implements Common{
+  @observable url = urlInit
+  @observable token = tokenInit
+  @observable auth = authInit
   @observable user = user
   @observable loading = false
+  
+  @action
+  initState(state: any) {
+    const {token, url, auth} = state
+    Object.assign(this, {
+      token: token || tokenInit,
+      url: url || urlInit,
+      user: auth || authInit
+    })
+  }
 
   @action
   changeUrl(url: ENV_URL) {
     this.url = url
-    // Taro.setStorageSync(STORAGE.URL, url)
+    AsyncStorage.setItem(STORAGE.URL, url).then()
   }
 
   @action
   setToken(tokens: string) {
     this.token = tokens
-    // Taro.setStorageSync(STORAGE.TOKEN, tokens)
+    AsyncStorage.setItem(STORAGE.TOKEN, tokens).then()
   }
 
   @action
@@ -84,13 +94,21 @@ export default class common implements Common{
     this.token = ''
     this.auth = ''
     this.user = null
-    // Taro.removeStorageSync(STORAGE.TOKEN)
-    // Taro.removeStorageSync(STORAGE.AUTH)
-    // Taro.removeStorageSync(STORAGE.USER)
+    AsyncStorage.multiRemove([STORAGE.TOKEN, STORAGE.URL, STORAGE.AUTH]).then()
   }
 
   static fromJS() {
     return new common()
   }
-
 }
+
+const state = common.fromJS()
+
+AsyncStorage.multiGet([STORAGE.TOKEN, STORAGE.URL, STORAGE.AUTH]).then(([[,token], [, url], [, auth]]) => {
+  const init = {
+    token, url, auth
+  }
+  state.initState(init)
+})
+
+export default state

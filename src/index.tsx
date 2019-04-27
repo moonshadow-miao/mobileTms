@@ -5,7 +5,8 @@ import store from './store'
 import {View} from 'react-native'
 import {ActivityIndicator} from '@ant-design/react-native'
 import {variable} from './style'
-import {observer} from 'mobx-react';
+import {observer} from 'mobx-react'
+import NavigationService from './router/NavigationService'
 
 @observer
 class Index extends Component {
@@ -13,7 +14,7 @@ class Index extends Component {
     return (
       <Provider {...store}>
         <View style={{flex: 1}}>
-          <Routers/>
+          <Routers ref={navigatorRef => NavigationService.setTopLevelNavigator((navigatorRef))}/>
           <ActivityIndicator toast color={variable.mainColor} animating={store.common.loading} size="large" text="Loading..."/>
         </View>
       </Provider>

@@ -1,8 +1,5 @@
-import Common from './common'
-import Dispatch from './dispatch'
-
-const common = Common.fromJS()
-const dispatch = Dispatch.fromJS()
+import common from './common'
+import dispatch from './dispatch'
 
 export default {
   common,

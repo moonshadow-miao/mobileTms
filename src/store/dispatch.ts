@@ -24,7 +24,7 @@ export interface Dispatch {
   hubList: Options[]
 }
 
-export default class dispatch implements Dispatch{
+class dispatch implements Dispatch{
   @observable dispatchOrders: Order[] = []
   @observable serviceProviderId = -1
   @observable serviceProviderName = ''
@@ -62,3 +62,7 @@ export default class dispatch implements Dispatch{
     return new dispatch()
   }
 }
+
+const state = dispatch.fromJS()
+
+export default state
