@@ -9,12 +9,14 @@
   },
   "dependencies": {
     "@ant-design/react-native": "^3.1.5",
+    "@react-native-community/async-storage": "^1.3.3",
     "mobx": "^5.9.4",
     "mobx-react": "^5.4.3",
     "react": "16.8.3",
     "react-native": "0.59.2",
     "react-native-gesture-handler": "^1.1.0",
     "react-native-linear-gradient": "^2.5.4",
+    "react-native-vector-icons": "^6.4.2",
     "react-navigation": "^3.6.1"
   },
   "devDependencies": {

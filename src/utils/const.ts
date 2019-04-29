@@ -15,6 +15,7 @@ export enum ENV_URL {
 export const STORAGE = {
   URL: __DEV__ ? 'url' : ENV_LABEL.PRODUCT + 'url',
   TOKEN: __DEV__ ? 'token' : ENV_LABEL.PRODUCT + 'token',
+  USER: __DEV__ ? 'user' : ENV_LABEL.PRODUCT + 'user',
   AUTH: __DEV__ ? 'auth' : ENV_LABEL.PRODUCT + 'auth'
 }
 

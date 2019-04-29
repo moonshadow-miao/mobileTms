@@ -84,7 +84,7 @@ class Index extends Component<Props, State> {
     })
     this.setState({text: 30 + 's后重试'})
     let time: number = 30
-    timeOut = setInterval(() => {
+    timeOut = +setInterval(() => {
       if (time === 0) {
         this.setState({text: '发送验证码'})
         clearInterval(timeOut)
@@ -116,22 +116,21 @@ class Index extends Component<Props, State> {
         Modal.operation(domainList)
         return
       }
-      this.login(domains[0].code, true).then()
+      this.login(domains[0].code).then()
     }).catch(() => {
       this.props.common.closeLoading()
     })
   }
 
-  async login(domainCode: number, redirect?: any) {
-    if (!redirect) { return }
+  async login(domainCode: number) {
     const {common} = this.props
     common.openLoading()
-    const res = await API_LOGIN({domainCode, preToken: PreToken})
-    common.setToken(res)
+    const {vo: code} = await API_LOGIN({domainCode, preToken: PreToken})
+    await common.setToken(code)
     common.closeLoading()
     Toast.success('登录成功', 1)
     await common.getAuthAndUser()
-    this.props.navigation.navigate('Details')
+    this.props.navigation.navigate('Index')
   }
 
   render () {
@@ -159,10 +158,10 @@ class Index extends Component<Props, State> {
               <Text style={style.iconText}>验证码：</Text>
             </View>
             <View style={style.input}>
-              <InputItem allowFontScaling={false} name='tel' last clear type='number' placeholder='请输入验证码' value={validCode} onChange={this.changeInput.bind(null, 'validCode')} extra={<SendCode text={text} sendValid={this.sendValid}/>} />
+              <InputItem allowFontScaling={false} name='tel' last clear type='number' placeholder='请输入验证码' value={validCode.toString()} onChange={this.changeInput.bind(null, 'validCode')} extra={<SendCode text={text} sendValid={this.sendValid}/>} />
             </View>
           </View>
-          <Button delayPressIn={0} delayPressOut={0} style={style.button} type="primary"  onPress={this.getDomain}>登录</Button>
+          <Button delayPressIn={0} delayPressOut={0} style={style.button} type="primary" onPress={this.getDomain}>登录</Button>
         </View>
         {
           __DEV__  && <Provider>

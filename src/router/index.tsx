@@ -12,7 +12,7 @@ const App = createStackNavigator({
     navigationOptions: {header: null}
   }
 }, {
-  initialRouteName: 'Login',
+  initialRouteName: 'Index',
 })
 
 // 初始化StackNavigator

@@ -1,7 +1,9 @@
-import {AsyncStorage} from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage';
 import {action, observable} from 'mobx';
 import {STORAGE} from '../utils/const'
 import {ENV_URL} from '../utils/const'
+import NavigationService from '../router/NavigationService'
+import {API_USER_AUTH} from '../api'
 
 type User = {
   roleNames: string,
@@ -20,17 +22,16 @@ export interface Common {
   auth: any,
   user: User,
   changeUrl: (url: ENV_URL) => void,
-  setToken: (token: string) => void,
+  setToken: (token: string) => Promise<any>,
   openLoading: Function,
   closeLoading: Function,
   emptyUser: () => void,
-  // getAuthAndUser: () => Promise<any> | undefined
-  getAuthAndUser: () => void
+  getAuthAndUser: () => Promise<any>
 }
 
 const tokenInit =  ''
 const urlInit = ENV_URL.DEV
-const authInit: any = null
+const authInit: any = {}
 const user: any = null
 
 class common implements Common{
@@ -39,14 +40,14 @@ class common implements Common{
   @observable auth = authInit
   @observable user = user
   @observable loading = false
-  
+
   @action
   initState(state: any) {
     const {token, url, auth} = state
     Object.assign(this, {
       token: token || tokenInit,
       url: url || urlInit,
-      user: auth || authInit
+      user: JSON.parse(auth) || authInit
     })
   }
 
@@ -59,7 +60,7 @@ class common implements Common{
   @action
   setToken(tokens: string) {
     this.token = tokens
-    AsyncStorage.setItem(STORAGE.TOKEN, tokens).then()
+    return AsyncStorage.setItem(STORAGE.TOKEN, tokens)
   }
 
   @action
@@ -74,19 +75,14 @@ class common implements Common{
 
   @action
   getAuthAndUser() {
-    if (!this.token || this.token === 'undefined') {
-      // Taro.reLaunch({url: 'pages/login/index'}).then()
-      return
-    }
-    // return API_USER_AUTH().then(({vo, vo: {userFunctionTree: {functionMap = null} = {}} = {}}) => {
-    //   const {roleNames, domainName, cellPhone, domainId, domainCode, domainType, loginName} = vo
-    //   this.auth = functionMap
-    //   this.user = {roleNames, domainName, cellPhone: +cellPhone, domainId, domainCode, domainType, loginName}
-    //   Taro.setStorageSync(STORAGE.AUTH, functionMap)
-    //   Taro.setStorageSync(STORAGE.USER, this.user)
-    // }).catch(() => {
-    //   Taro.reLaunch({url: 'pages/login/index'}).then()
-    // })
+    return API_USER_AUTH().then(({vo, vo: {userFunctionTree: {functionMap = null} = {}} = {}}) => {
+      const {roleNames, domainName, cellPhone, domainId, domainCode, domainType, loginName} = vo
+      this.auth = functionMap
+      this.user = {roleNames, domainName, cellPhone: +cellPhone, domainId, domainCode, domainType, loginName}
+      AsyncStorage.multiSet([[STORAGE.AUTH, JSON.stringify(functionMap)], [STORAGE.USER, JSON.stringify(this.user)]]).then()
+    }).catch(() => {
+      NavigationService.navigate('Login')
+    })
   }
 
   @action
@@ -109,6 +105,7 @@ AsyncStorage.multiGet([STORAGE.TOKEN, STORAGE.URL, STORAGE.AUTH]).then(([[,token
     token, url, auth
   }
   state.initState(init)
+  token && token !== 'undefined' ? state.getAuthAndUser().then() : NavigationService.navigate('Login')
 })
 
 export default state
