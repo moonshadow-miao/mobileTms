@@ -17,7 +17,7 @@ const style: IndexStyle = {
     position: 'relative'
   },
   entrances: {
-    paddingTop: 60,
+    paddingTop: 20,
     paddingRight: 20,
     paddingLeft: 20,
     flexWrap: 'wrap',
