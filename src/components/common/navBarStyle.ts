@@ -4,7 +4,8 @@ import common from '../../style'
 interface IndexStyle {
   navContainer: ViewStyle,
   title: TextStyle,
-  back: ViewStyle
+  back: ViewStyle,
+  filter: ViewStyle
 }
 
 const style: IndexStyle = {
@@ -21,6 +22,10 @@ const style: IndexStyle = {
   },
   back: {
     paddingLeft: 10
+  },
+  filter: {
+    flex: 1,
+    backgroundColor: '#fff'
   }
 }
 

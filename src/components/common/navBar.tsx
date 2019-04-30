@@ -2,36 +2,76 @@ import React from 'react'
 import {View, Text, TouchableWithoutFeedback} from 'react-native'
 import style from './navBarStyle'
 import {NavigationScreenProp} from 'react-navigation'
-import LinearGradient from "react-native-linear-gradient";
-import {Icon} from '@ant-design/react-native'
+import LinearGradient from 'react-native-linear-gradient'
+import {Icon, InputItem} from '@ant-design/react-native'
 
 interface Props {
   navigation: NavigationScreenProp<any, any>,
+  renderPicker?: any,
+  onSearch?: (value: string) => void,
   title: string,
-  showBack?: boolean
+  placeholder?: string,
+  filter?: boolean,
+  showBack?: boolean,
 }
 
-class NavBar extends React.PureComponent<Props> {
+interface State {
+  value: string
+}
+
+class NavBar extends React.PureComponent<Props, State> {
   static defaultProps = {
+    filter: false,
+    placeholder: '',
     showBack: true
+  }
+
+  constructor (props: Readonly<Props>) {
+    super(props)
+    this.state = {
+      value: ''
+    }
   }
 
   navigateBack = () => {
     this.props.navigation.goBack()
   }
 
+  goSearch = () => {
+    this.props.onSearch && this.props.onSearch(this.state.value)
+  }
+
+  changeInput = (value: string) => {
+    this.setState({value})
+  }
+
+  clear = () => {
+    this.setState({value: ''}, () => {
+      this.goSearch()
+    })
+  }
+
   render () {
-    const {title, showBack} = this.props
+    const {value} = this.state
+    const {title, placeholder, filter, showBack} = this.props
     return (
       <LinearGradient start={{x: 1, y: 0}} end={{x: 0, y: 1}} colors={['#5830ae', '#ec6e5e']}>
-        <View style={style.navContainer}>
-          {
-            showBack && <TouchableWithoutFeedback style={style.back} onPress={this.navigateBack}>
-              <Icon name='left' size={35} color='#fff' />
-            </TouchableWithoutFeedback>
-          }
-          <Text style={style.title}>{title}</Text>
-        </View>
+        {
+          filter ? <View style={style.navContainer}>
+            {
+              showBack && <TouchableWithoutFeedback style={style.back} onPress={this.navigateBack}>
+                <Icon name='left' size={35} color='#fff' />
+              </TouchableWithoutFeedback>
+            }
+            <Text style={style.title}>{title}</Text>
+            <View style={style.filter}>
+              <View>{this.props.renderPicker}</View>
+              <InputItem allowFontScaling={false} name='search' last clear type='text' placeholder={placeholder} value={value.toString()} onChange={this.changeInput}/>
+            </View>
+          </View> : <View>
+            <Text style={style.title}>{title}</Text>
+          </View>
+        }
       </LinearGradient>
     )
   }

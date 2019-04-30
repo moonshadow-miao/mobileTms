@@ -20,6 +20,7 @@ class Index extends Component<Props> {
     if (page === 'todo') {
       Toast.fail('暂未开通，敬请期待', 1)
     }
+    this.props.navigation.navigate(page)
   }
 
   render () {
