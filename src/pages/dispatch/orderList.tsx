@@ -4,8 +4,8 @@ import {observer, inject} from 'mobx-react'
 import {Common} from '../../store/common'
 import style from './orderListStyle'
 import {NavigationScreenProp} from 'react-navigation'
-import {variable} from '../../style'
-import {Icon, Toast, Provider} from '@ant-design/react-native'
+import commonStyle from '../../style'
+import {Provider, Picker} from '@ant-design/react-native'
 import NavBar from '../../components/common/navBar'
 
 interface Props {
@@ -13,20 +13,33 @@ interface Props {
   navigation: NavigationScreenProp<any, any>
 }
 
+interface State {
+  type: string
+}
+
+const typeList: any[] = []
+
 @inject('common')
 @observer
-class Index extends Component<Props> {
+class Index extends Component<Props, State> {
   constructor(props: Readonly<Props>) {
     super(props)
-    console.log(variable, Icon, Toast)
+    this.state = {
+      type: ''
+    }
+  }
+
+  onChangeEnv = () => {
+
   }
 
   render () {
+    const {type} = this.state
     const {navigation} = this.props
     return (
       <Provider>
         <View style={style.container}>
-          <NavBar showBack={true} filter={true} navigation={navigation} title='1. 选择订单'/>
+          <NavBar renderPicker={<Provider><Picker indicatorStyle={commonStyle.indicator} itemStyle={commonStyle.pickerItem} onChange={this.onChangeEnv} data={[typeList]} cascade={false} value={[type]} /></Provider>} placeholder='请输入单号、收发货方、详细地址' showBack={true} filter={true} navigation={navigation} title='1. 选择订单'/>
           <TouchableNativeFeedback>
             <Text>1</Text>
           </TouchableNativeFeedback>
