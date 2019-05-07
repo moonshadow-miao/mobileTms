@@ -38,14 +38,18 @@ const style: IndexStyle = {
     paddingLeft: 15
   },
   filter: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'row'
   },
   inputContainer: {
     backgroundColor: '#fff',
     borderRadius: 14,
     height: 38,
     position: 'relative',
-    padding: 0
+    padding: 0,
+    flex: 1,
+    marginRight: 10,
+    marginLeft: 5
   },
   input: {
     height: 36,
@@ -57,8 +61,11 @@ const style: IndexStyle = {
     top: 2
   },
   picker: {
-    width: 60,
-    height: 36
+    width: 80,
+    height: 36,
+    borderColor: '#fff',
+    borderWidth: 1,
+    marginTop: 2
   }
 }
 

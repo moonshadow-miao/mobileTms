@@ -8,7 +8,8 @@ interface IndexStyle {
   disable: TextStyle,
   text: TextStyle,
   entrances: ViewStyle,
-  entrance: ViewStyle
+  entrance: ViewStyle,
+  label: TextStyle
 }
 
 const style: IndexStyle = {
@@ -41,6 +42,12 @@ const style: IndexStyle = {
   },
   disable: {
     color: '#a4a4a4'
+  },
+  label: {
+    textAlign: 'center',
+    lineHeight: 36,
+    color: '#fff',
+    fontSize: 15
   }
 }
 

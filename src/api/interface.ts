@@ -13,11 +13,17 @@ type PAGE = {
   pageSize: number
 }
 
+export enum EnumOrder {
+  all = '',
+  split = 'true',
+  noSplit = 'false'
+}
+
 export interface ORDER_LIST {
   page: PAGE,
   so: {
     appCodeLike: string,
-    ableSplit: boolean | ''
+    ableSplit: EnumOrder
   }
 }
 
