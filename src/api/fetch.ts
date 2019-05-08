@@ -28,7 +28,7 @@ const Fetch: (option: FetchOptions) => Promise<any> = ({url, method = 'POST', da
     }
     url = url.slice(0, -1)
   }
-  const params = body ? {method, headers} : {method, headers, body}
+  const params = body ? {method, headers, body: JSON.stringify(body)} : {method, headers}
   return fetch(url, params).then(res => res.json()).then((res: any) => {
     loading && common.closeLoading()
     if (res.status && res.status !== 200) {

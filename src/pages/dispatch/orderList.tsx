@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, TouchableNativeFeedback, Text} from 'react-native'
+import {View, Text, FlatList} from 'react-native'
 import {observer, inject} from 'mobx-react'
 import {Common} from '../../store/common'
 import style from './orderListStyle'
@@ -7,8 +7,9 @@ import {NavigationScreenProp} from 'react-navigation'
 import commonStyle from '../../style'
 import {Provider, Picker} from '@ant-design/react-native'
 import NavBar from '../../components/common/navBar'
-import {API_ORDER_LIST} from '../../api'
+import {API_ORDER_LIST} from '../../api/index'
 import {EnumOrder} from '../../api/interface'
+import OrderDetail, {Status} from '../../components/dispatch/OrderDetail'
 
 interface Props {
   common: Common,
@@ -36,7 +37,7 @@ type Order = {
   sourceLocationAddress: string,
   volume: number,
   weight: number,
-  status: 'SCHEDULING' | 'UNSCHEDULED'
+  status: Status
 }
 
 type Cargo = {
@@ -86,7 +87,7 @@ class Index extends Component<Props, State> {
     }
   }
 
-  onChangeStatus = (item: any) => {
+  onChangeStatus = ([item]: any) => {
     this.setState({type: item}, () => {
       this.goSearch().then()
     })
@@ -104,7 +105,7 @@ class Index extends Component<Props, State> {
   }
 
   render () {
-    const {type} = this.state
+    const {type, orderList} = this.state
     const {navigation} = this.props
     const label = typeList.find(item => item.value === type).label
     return (
@@ -115,9 +116,7 @@ class Index extends Component<Props, State> {
               <Text style={style.label}>{label}</Text>
             </Picker>
           } placeholder='请输入单号、收发货方、详细地址' showBack={true} filter={true} navigation={navigation} title='1. 选择订单'/>
-          <TouchableNativeFeedback>
-            <Text>1</Text>
-          </TouchableNativeFeedback>
+          <FlatList data={orderList} renderItem={({item}) => <OrderDetail checked={item.checked} order={item.gnode} cargo={item.list} key={item.gnode.id} />} />
         </View>
       </Provider>
     )
