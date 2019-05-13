@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {View, Text} from 'react-native'
+import {Icon} from '@ant-design/react-native'
 import style from './OrderDetailStyle'
+import {variable} from "../../style";
 
 export enum Status {
   SCHEDULING = 'SCHEDULING',
@@ -51,7 +53,8 @@ type Props = {
 }
 
 type State = {
-  fold: boolean
+  fold: boolean,
+  checked: boolean
 }
 
 class OrderDetail extends Component<Props, State> {
@@ -62,7 +65,8 @@ class OrderDetail extends Component<Props, State> {
   constructor (props: Readonly<Props>) {
     super(props)
     this.state = {
-      fold: true
+      fold: true,
+      checked: false
     }
   }
 
@@ -87,10 +91,27 @@ class OrderDetail extends Component<Props, State> {
 
   render () {
     const {order} = this.props
-    // const {fold} = this.state
+    const {checked} = this.state
     const split = order.status === Status.SCHEDULING
     const splitClass = split ? style.split : style.order
-    return (<View style={splitClass}><Text> </Text></View>)
+    return (<View style={splitClass}>
+      <View style={style.orderTop}>
+        <View style={style.checkDetail}>
+          {checked ? <Icon style={style.checkBox} size={28} name='check'/> : <Text style={style.noChecked}/>}
+        </View>
+        <View>
+          <View style={style.detail}>
+            <Text style={style.detailItem}>订单号：</Text><Text style={{...style.detailItem, lineHeight: 22}}>{order.code}<Icon name='copy' style={{paddingTop: 5}} color={variable.mainColor} size={18} /></Text>
+          </View>
+          <View style={style.detail}>
+            <Text style={style.detailItem}>外部单号：</Text><Text style={style.detailItem}>{order.erpNo || '-'}</Text>
+          </View>
+          <View style={style.detail}>
+            <Text style={style.detailItem}>外部单号：</Text><Text style={style.detailItem}>{order.receiverName} - {order.destLocationAddress}</Text>
+          </View>
+        </View>
+      </View>
+    </View>)
   }
 }
 

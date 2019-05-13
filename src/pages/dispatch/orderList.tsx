@@ -67,7 +67,9 @@ interface State {
   appCodeLike: '',
   orderList: OrderInfo[],
   currentPage: number,
-  totalCount: number
+  totalCount: number,
+  init: boolean,
+  shouldUpdate: boolean
 }
 
 const typeList: Label[] = [{label:'全部', value: EnumOrder.all}, {label:'已拆分', value: EnumOrder.split}, {label:'未拆分', value: EnumOrder.noSplit}]
@@ -83,8 +85,22 @@ class Index extends Component<Props, State> {
       appCodeLike: '',
       orderList: [],
       currentPage: 1,
-      totalCount: 0
+      totalCount: 0,
+      init: true,
+      shouldUpdate: true
     }
+  }
+
+  componentWillReact() {
+    if(this.props.common.token && this.state.init) {
+      this.goSearch().then(() => {
+        this.setState({init: false, shouldUpdate: false})
+      })
+    }
+  };
+
+  shouldComponentUpdate(nextProps: Readonly<Props>, nextState: Readonly<State>): boolean {
+    return nextProps !== this.props || nextState.shouldUpdate
   }
 
   onChangeStatus = ([item]: any) => {
@@ -93,14 +109,15 @@ class Index extends Component<Props, State> {
     })
   }
 
-  goSearch: (appCodeLike?: string) => Promise<any> = (appCodeLike = this.state.appCodeLike) => {
+  goSearch: (appCodeLike?: string) => Promise<any> = (appCodeLike = '') => {
+    appCodeLike  = appCodeLike || this.state.appCodeLike
     const {type} = this.state
     return API_ORDER_LIST({page: {currentPage: 1, pageSize}, so: {appCodeLike, ableSplit: type}}, true).then(({vo: {list = []}}) => {
       const orderList: OrderInfo[] = list.map((item: { checked: boolean }) => {
         item.checked = false
         return item
       })
-      this.setState({orderList, currentPage: 1})
+      this.setState({orderList, currentPage: 1, shouldUpdate: true})
     })
   }
 
@@ -118,6 +135,7 @@ class Index extends Component<Props, State> {
           } placeholder='请输入单号、收发货方、详细地址' showBack={true} filter={true} navigation={navigation} title='1. 选择订单'/>
           <FlatList data={orderList} renderItem={({item}) => <OrderDetail checked={item.checked} order={item.gnode} cargo={item.list} key={item.gnode.id} />} />
         </View>
+        <Text>{this.props.common.token}</Text>
       </Provider>
     )
   }
