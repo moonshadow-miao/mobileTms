@@ -97,7 +97,7 @@ class Index extends Component<Props, State> {
         this.setState({init: false, shouldUpdate: false})
       })
     }
-  };
+  }
 
   shouldComponentUpdate(nextProps: Readonly<Props>, nextState: Readonly<State>): boolean {
     return nextProps !== this.props || nextState.shouldUpdate
@@ -133,9 +133,9 @@ class Index extends Component<Props, State> {
               <Text style={style.label}>{label}</Text>
             </Picker>
           } placeholder='请输入单号、收发货方、详细地址' showBack={true} filter={true} navigation={navigation} title='1. 选择订单'/>
-          <FlatList data={orderList} renderItem={({item}) => <OrderDetail checked={item.checked} order={item.gnode} cargo={item.list} key={item.gnode.id} />} />
+          <FlatList data={orderList} keyExtractor={item => item.gnode.id.toString()} renderItem={({item}) => <OrderDetail checked={item.checked} order={item.gnode} cargo={item.list}/>} />
         </View>
-        <Text>{this.props.common.token}</Text>
+        <Text style={{display: 'none'}}>{this.props.common.token}</Text>
       </Provider>
     )
   }

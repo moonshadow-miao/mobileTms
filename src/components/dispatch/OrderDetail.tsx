@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {View, Text} from 'react-native'
-import {Icon} from '@ant-design/react-native'
+import {View, Text, TouchableWithoutFeedback, Clipboard} from 'react-native'
+import {Icon, Toast} from '@ant-design/react-native'
 import style from './OrderDetailStyle'
-import {variable} from "../../style";
+import {variable} from '../../style'
 
 export enum Status {
   SCHEDULING = 'SCHEDULING',
@@ -46,7 +46,6 @@ type Cargo = {
 type Props = {
   order: Order,
   cargo: Cargo[],
-  key: number,
   checked: boolean,
   onSelectOrder?: (checked: boolean) => void,
   onOpenModal?: (subSoCode: string) => void
@@ -72,17 +71,19 @@ class OrderDetail extends Component<Props, State> {
 
   copy = (e: any) => {
     e.stopPropagation()
-    // const code = this.props.order.code
-    // code && Taro.setClipboardData({data: code}).then()
+    Clipboard.setString(this.props.order.code)
+    Toast.success('订单号复制成功！', 1)
   }
 
-  checkedOrder = (checked: boolean) => {
-    this.props.onSelectOrder(checked)
+  checkedOrder = () => {
+    this.setState({checked: !this.state.checked})
+    // this.props.onSelectOrder()
   }
 
-  foldContent = (fold: boolean) => {
-    this.setState({fold})
+  foldContent = () => {
+    this.setState({fold: !this.state.fold})
   }
+
 
   cancelSplit = () => {
     const subSoCode = this.props.cargo[0].subSoCode
@@ -91,26 +92,44 @@ class OrderDetail extends Component<Props, State> {
 
   render () {
     const {order} = this.props
-    const {checked} = this.state
+    const {checked, fold} = this.state
     const split = order.status === Status.SCHEDULING
     const splitClass = split ? style.split : style.order
     return (<View style={splitClass}>
       <View style={style.orderTop}>
         <View style={style.checkDetail}>
-          {checked ? <Icon style={style.checkBox} size={28} name='check'/> : <Text style={style.noChecked}/>}
+          <TouchableWithoutFeedback onPress={this.checkedOrder}>
+            {!checked ? <Icon style={style.checkBox} color={variable.mainColor} size={23} name='check'/> : <Text style={style.noChecked}/>}
+          </TouchableWithoutFeedback>
         </View>
         <View>
-          <View style={style.detail}>
-            <Text style={style.detailItem}>订单号：</Text><Text style={{...style.detailItem, lineHeight: 22}}>{order.code}<Icon name='copy' style={{paddingTop: 5}} color={variable.mainColor} size={18} /></Text>
-          </View>
+          <TouchableWithoutFeedback onPress={this.copy}>
+            <View style={style.detail}>
+              <Text style={style.detailItem}>订单号：</Text>
+              <Text style={{...style.detailItem, lineHeight: 22}}>{order.code}</Text>
+              <Icon name='copy' color={variable.mainColor} size={22} />
+            </View>
+          </TouchableWithoutFeedback>
           <View style={style.detail}>
             <Text style={style.detailItem}>外部单号：</Text><Text style={style.detailItem}>{order.erpNo || '-'}</Text>
           </View>
           <View style={style.detail}>
-            <Text style={style.detailItem}>外部单号：</Text><Text style={style.detailItem}>{order.receiverName} - {order.destLocationAddress}</Text>
+            <Text style={style.detailItem}>收货方：</Text><Text numberOfLines={2} style={{...style.detailItem, width: 270}}>{order.receiverName} - {order.destLocationAddress}</Text>
           </View>
         </View>
+        <View style={style.expand}>
+          <TouchableWithoutFeedback onPress={this.foldContent}>
+            {
+              fold ? <Icon color={variable.mainColor} size={30} name='down'/> : <Icon color={variable.mainColor} name='up' size={30} />
+            }
+          </TouchableWithoutFeedback>
+        </View>
       </View>
+      {
+        !fold && <View style={style.orderBottom}>
+          <Text>第六季拉水电费骄傲绿色空间发生砥砺奋进</Text>
+        </View>
+      }
     </View>)
   }
 }

@@ -5,7 +5,9 @@ interface IndexStyle {
   split: ViewStyle,
   orderTop: ViewStyle,
   checkDetail: ViewStyle,
+  orderBottom: ViewStyle,
   detail: ViewStyle,
+  expand: ViewStyle,
   detailItem: TextStyle,
   checkBox: TextStyle,
   noChecked: TextStyle,
@@ -14,11 +16,11 @@ interface IndexStyle {
 
 const check = {
   borderRadius: 18,
-  width: 36,
-  height: 36,
+  width: 30,
+  height: 30,
   borderWidth: 1,
   marginTop: 20,
-  lineHeight: 36
+  lineHeight: 30
 }
 
 const style: IndexStyle = {
@@ -40,12 +42,12 @@ const style: IndexStyle = {
     flexDirection: 'row'
   },
   checkDetail: {
-    flexDirection: 'row'
+    paddingLeft: 7,
+    paddingRight: 7
   },
   checkBox: {
     ...check,
-    textAlign: 'center',
-    backgroundColor: variable.mainColor
+    textAlign: 'center'
   },
   noChecked: {
     ...check,
@@ -53,11 +55,19 @@ const style: IndexStyle = {
     borderColor: variable.mainColor
   },
   detail: {
-    width: 285,
+    width: 315,
     flexDirection: 'row'
   },
   detailItem: {
-    lineHeight: 25,
+    lineHeight: 25
+  },
+  expand: {
+    width: 60,
+    paddingTop: 20,
+    paddingLeft: 10
+  },
+  orderBottom: {
+
   }
 }
 
