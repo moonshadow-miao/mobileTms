@@ -6,10 +6,7 @@ export enum ENV_LABEL {
 }
 
 export enum ENV_URL {
-  DEV = 'http://10.30.4.60:8080',
-  UAT = 'http://10.30.4.159:8080',
-  DEMO = 'http://10.30.4.189:8080',
-  PRODUCT = 'https://apptnet.800best.com'
+
 }
 
 export const STORAGE = {
